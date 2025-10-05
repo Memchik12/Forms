@@ -67,32 +67,57 @@
             pswdLenError.classList.add('pswdOk')
         }
 
+        if (/\d/.test(pswd) || /\d/.test(pswdConfirm)) {
+            hasErrors = true
+            pswdNumericError.classList.remove('pswdError')
+            pswdNumericError.classList.add('pswdOk')
+        } else {
+            pswdNumericError.classList.add('pswdError')
+            pswdNumericError.classList.remove('pswdOk')
+        }
+
+        function hasUppercaseChar(str) {
+            for (let i = 0; i < str.length; i++) {
+                const char = str[i];
+                if (char >= 'A' && char <= 'Z') { // Проверка на диапазон заглавных букв
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (pswd !== hasUppercaseChar(pswd)) {
+            hasErrors = true
+            pswdUppercaseError.classList.remove('pswdError')
+            pswdUppercaseError.classList.add('pswdOk')
+        } else {
+            pswdUppercaseError.classList.add('pswdError')
+            pswdUppercaseError.classList.remove('pswdOk')
+        }
+
         if (hasErrors)
             frm.elements['sendForm'].disabled = true
         else
             frm.elements['sendForm'].disabled = false
 
-        console.log(pswd)
+        console.log(hasUppercaseChar(pswd))
     }
     function NubrsForm() {
         const pswd = frm.elements['pswd'].value
         const pswdConfirm = frm.elements['pswdConfirm'].value
+        hasErrors = false;
+
         console.log(/\d/.test(pswd))
 
     }
 
     frm.elements['pswd'].addEventListener('keypress',  validateForm)
-    frm.elements['pswd'].addEventListener('keypress',  NubrsForm)
     frm.elements['pswdConfirm'].addEventListener('keypress',  validateForm);
     frm.elements['privacyConfirm'].addEventListener('change',  validateForm);
 
     frm.onsubmit = function (ev) {
 
         ev.preventDefault();
-        console.log('validateForm()')
         validateForm()
-        console.log('NubrsForm()')
-        NubrsForm()
         if (hasErrors) return false
         frm.submit()
     }
