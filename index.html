@@ -47,7 +47,6 @@
     function validateForm() {
         const pswd = frm.elements['pswd'].value
         const pswdConfirm = frm.elements['pswdConfirm'].value
-
         hasErrors = false;
 
         if( !frm.elements['privacyConfirm'].checked) {
@@ -75,15 +74,25 @@
 
         console.log(pswd)
     }
+    function NubrsForm() {
+        const pswd = frm.elements['pswd'].value
+        const pswdConfirm = frm.elements['pswdConfirm'].value
+        console.log(/\d/.test(pswd))
 
-    frm.elements['pswd'].addEventListener('keypress',  validateForm);
+    }
+
+    frm.elements['pswd'].addEventListener('keypress',  validateForm)
+    frm.elements['pswd'].addEventListener('keypress',  NubrsForm)
     frm.elements['pswdConfirm'].addEventListener('keypress',  validateForm);
     frm.elements['privacyConfirm'].addEventListener('change',  validateForm);
 
     frm.onsubmit = function (ev) {
 
         ev.preventDefault();
+        console.log('validateForm()')
         validateForm()
+        console.log('NubrsForm()')
+        NubrsForm()
         if (hasErrors) return false
         frm.submit()
     }
