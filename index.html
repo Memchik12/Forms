@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .pswdOk {color: green}
+        .pswdError {color: red;text-decoration: line-through;}
+    </style>
+</head>
+<body>
+<div>
+    <ul>
+        <li id="pswdLenError">Min Password Size is 8</li>
+        <li id="pswdNumericError"> Must have numeric</li>
+        <li id="pswdUppercaseError"> Must have UpperCase</li>
+        <li id="pswdLowercaseError"> Must have LowerCase</li>
+        <li id="pswdConfirmError"> Confirm password</li>
+        <li id="privacyConfirmError"> Confirm privacy</li>
+
+    </ul>
+</div>
+
+<div>
+    <form name="frmPassword" method="get">
+        <label> Enter password<input type="text" name="pswd"></label><br>
+        <label>Confirm Password <input type="text" name="pswdConfirm"></label><br>
+        <label><input type="checkbox" name="privacyConfirm" >Privacy</label>
+        <input type="submit" name="sendForm" ><br>
+    </form>
+</div>
+
+<script>
+    const pswdLenError =document.getElementById('pswdLenError')
+    const pswdNumericError =document.getElementById('pswdNumericError')
+    const pswdUppercaseError =document.getElementById('pswdUppercaseError')
+    const pswdLowercaseError =document.getElementById('pswdLowercaseError')
+    const pswdConfirmError =document.getElementById('pswdConfirmError')
+    const privacyConfirmError =document.getElementById('privacyConfirmError')
+
+    const frm = document.forms['frmPassword']
+    console.log(frm)
+
+    let hasErrors = true
+
+    function validateForm() {
+        const pswd = frm.elements['pswd'].value
+        const pswdConfirm = frm.elements['pswdConfirm'].value
+
+        hasErrors = false;
+
+        if( !frm.elements['privacyConfirm'].checked) {
+            hasErrors = true
+            privacyConfirmError.classList.add('pswdError')
+            privacyConfirmError.classList.remove('pswdOk')
+        } else {
+            privacyConfirmError.classList.remove('pswdError')
+            privacyConfirmError.classList.add('pswdOk')
+        }
+
+        if (pswd.length < 8 || pswdConfirm.length < 8) {
+            hasErrors = true
+            pswdLenError.classList.add('pswdError')
+            pswdLenError.classList.remove('pswdOk')
+        } else {
+            pswdLenError.classList.remove('pswdError')
+            pswdLenError.classList.add('pswdOk')
+        }
+
+        if (hasErrors)
+            frm.elements['sendForm'].disabled = true
+        else
+            frm.elements['sendForm'].disabled = false
+
+        console.log(pswd)
+    }
+
+    frm.elements['pswd'].addEventListener('keypress',  validateForm);
+    frm.elements['pswdConfirm'].addEventListener('keypress',  validateForm);
+    frm.elements['privacyConfirm'].addEventListener('change',  validateForm);
+
+    frm.onsubmit = function (ev) {
+
+        ev.preventDefault();
+        validateForm()
+        if (hasErrors) return false
+        frm.submit()
+    }
+
+
+
+</script>
+
+
+
+</body>
+</html>
