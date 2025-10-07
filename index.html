@@ -76,16 +76,8 @@
             pswdNumericError.classList.remove('pswdOk')
         }
 
-        function hasUppercaseChar(str) {
-            for (let i = 0; i < str.length; i++) {
-                const char = str[i];
-                if (char >= 'A' && char <= 'Z') { // Проверка на диапазон заглавных букв
-                    return true;
-                }
-            }
-            return false;
-        }
-        if (pswd !== hasUppercaseChar(pswd)) {
+
+        if (/^[A-Z]/.test(pswd[0]) || /^[A-Z]/.test(pswd[0]) ) {
             hasErrors = true
             pswdUppercaseError.classList.remove('pswdError')
             pswdUppercaseError.classList.add('pswdOk')
@@ -99,7 +91,7 @@
         else
             frm.elements['sendForm'].disabled = false
 
-        console.log(hasUppercaseChar(pswd))
+
     }
     function NubrsForm() {
         const pswd = frm.elements['pswd'].value
