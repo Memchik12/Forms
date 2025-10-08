@@ -43,7 +43,17 @@
     console.log(frm)
 
     let hasErrors = true
-
+    function pswdIsLowercase(str)
+    {
+        for (i=1; i<str.length; i++)
+        {
+            if (/^[a-z]/.test(str[i]))
+            {
+                return true
+            }
+        }
+        return false
+    }
     function validateForm() {
         const pswd = frm.elements['pswd'].value
         const pswdConfirm = frm.elements['pswdConfirm'].value
@@ -77,13 +87,33 @@
         }
 
 
-        if (/^[A-Z]/.test(pswd[0]) || /^[A-Z]/.test(pswd[0]) ) {
+        if (/^[A-Z]/.test(pswd[0]) || /^[A-Z]/.test(pswdConfirm[0]) ) {
             hasErrors = true
             pswdUppercaseError.classList.remove('pswdError')
             pswdUppercaseError.classList.add('pswdOk')
         } else {
             pswdUppercaseError.classList.add('pswdError')
             pswdUppercaseError.classList.remove('pswdOk')
+
+        }
+        //console.log("pswd = " + pswdIsLowercase(pswd))
+        //console.log(pswdIsLowercase("pswdConfirm = " + pswdConfirm))
+        if (pswdIsLowercase(pswd)  || pswdIsLowercase(pswdConfirm) ) {
+            hasErrors = true
+            pswdLowercaseError.classList.remove('pswdError')
+            pswdLowercaseError.classList.add('pswdOk')
+        } else {
+            pswdLowercaseError.classList.add('pswdError')
+            pswdLowercaseError.classList.remove('pswdOk')
+        }
+
+        if (pswd === pswdConfirm && pswdConfirm !== "") {
+            hasErrors = true
+            pswdConfirmError.classList.remove('pswdError')
+            pswdConfirmError.classList.add('pswdOk')
+        } else {
+            pswdConfirmError.classList.add('pswdError')
+            pswdConfirmError.classList.remove('pswdOk')
         }
 
         if (hasErrors)
@@ -102,7 +132,7 @@
 
     }
 
-    frm.elements['pswd'].addEventListener('keypress',  validateForm)
+    frm.elements['pswd'].addEventListener('keypress',  validateForm);
     frm.elements['pswdConfirm'].addEventListener('keypress',  validateForm);
     frm.elements['privacyConfirm'].addEventListener('change',  validateForm);
 
